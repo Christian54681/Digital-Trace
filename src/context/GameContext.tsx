@@ -1,13 +1,23 @@
+// src/context/GameContext.tsx
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { FileSystemNode } from '../types';
 
-// Definimos qué información tendrá una ventana activa
 interface ActiveWindow {
     id: string;
     type: string;
     title: string;
-    node?: FileSystemNode; // Datos del archivo si la ventana abre un archivo
+    node?: FileSystemNode;
 }
+
+interface Notification {
+    id: string;
+    title: string;
+    message: string;
+    type: 'info' | 'warning' | 'error' | 'success';
+}
+
+// Definimos los tipos de usuario
+export type UserSession = 'alex' | 'guest' | null;
 
 interface GameContextType {
     openWindows: ActiveWindow[];
@@ -16,17 +26,38 @@ interface GameContextType {
     focusedWindowId: string | null;
     setFocusedWindow: (id: string) => void;
     isPCUnlocked: boolean;
-    unlockPC: () => void;
+    currentUser: UserSession; // Nuevo: Quién está logueado
+    unlockPC: (user: UserSession) => void; // Modificado: Recibe el usuario
     unlockNode: (id: string) => void;
     resetGame: () => void;
+    logout: () => void;
+    notifications: Notification[];
+    notify: (title: string, message: string, type?: Notification['type']) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
 export const GameProvider = ({ children }: { children: ReactNode }) => {
 
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+
+    const notify = (title: string, message: string, type: Notification['type'] = 'info') => {
+        const id = Math.random().toString(36).substring(7);
+        setNotifications(prev => [...prev, { id, title, message, type }]);
+
+        // Auto-eliminar después de 5 segundos
+        setTimeout(() => {
+            setNotifications(prev => prev.filter(n => n.id !== id));
+        }, 5000);
+    };
+
+    // Estado de desbloqueo y persistencia de usuario
     const [isPCUnlocked, setIsPCUnlocked] = useState(() => {
         return localStorage.getItem('isPCUnlocked') === 'true';
+    });
+
+    const [currentUser, setCurrentUser] = useState<UserSession>(() => {
+        return localStorage.getItem('currentUser') as UserSession || null;
     });
 
     const [openWindows, setOpenWindows] = useState<ActiveWindow[]>(() => {
@@ -36,12 +67,24 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
     const [focusedWindowId, setFocusedWindowId] = useState<string | null>(null);
 
+    // Sincronización con LocalStorage
     useEffect(() => {
         localStorage.setItem('isPCUnlocked', isPCUnlocked.toString());
+        localStorage.setItem('currentUser', currentUser || '');
         localStorage.setItem('openWindows', JSON.stringify(openWindows));
-    }, [isPCUnlocked, openWindows]);
+    }, [isPCUnlocked, currentUser, openWindows]);
 
-    const unlockPC = () => setIsPCUnlocked(true);
+    // Función de desbloqueo mejorada
+    const unlockPC = (user: UserSession) => {
+        setCurrentUser(user);
+        setIsPCUnlocked(true);
+    };
+
+    const logout = () => {
+        setIsPCUnlocked(false);
+        setCurrentUser(null);
+        setOpenWindows([]); // Cerramos todo por seguridad al salir
+    };
 
     const unlockNode = (id: string) => {
         setOpenWindows(prev => prev.map(win => {
@@ -56,33 +99,33 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const openApp = (node: FileSystemNode) => {
+        // SEGURIDAD: Si un Guest intenta abrir la terminal, bloqueamos
+        if (currentUser === 'guest' && node.id === 'app-terminal') {
+            notify(
+                "Access Denied",
+                "Local policy restricts Terminal access to authorized administrators only. Contact your system provider.",
+                "error"
+            );
+            return;
+        }
 
-        // 1. Si la ventana ya está abierta, solo le damos el foco
         if (openWindows.find((w) => w.id === node.id)) {
             setFocusedWindowId(node.id);
             return;
         }
 
-        // 2. Definimos un título dinámico según el tipo de archivo/app
         let windowTitle = node.name;
+        if (node.type === 'image') windowTitle = `Image Viewer - [ ${node.name} ]`;
+        else if (node.type === 'folder') windowTitle = `Explorador: ${node.name}`;
+        else if (node.id === 'app-terminal') windowTitle = `Console Area - Root@AlexPC`;
 
-        if (node.type === 'image') {
-            windowTitle = `Image Viewer- [ ${node.name} ]`;
-        } else if (node.type === 'folder') {
-            windowTitle = `Explorador: ${node.name}`;
-        } else if (node.id === 'app-terminal') {
-            windowTitle = `Console Area - Root@Investigator`;
-        }
-
-        // 3. Creamos la nueva ventana con la estructura que ya tenías
         const newWindow: ActiveWindow = {
             id: node.id,
-            type: node.type, // 'image', 'file', 'folder' o 'app'
+            type: node.type,
             title: windowTitle,
             node: node
         };
 
-        // 4. Actualizamos el estado
         setOpenWindows([...openWindows, newWindow]);
         setFocusedWindowId(node.id);
     };
@@ -105,16 +148,19 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
             focusedWindowId,
             setFocusedWindow: setFocusedWindowId,
             isPCUnlocked,
+            currentUser,
             unlockPC,
             unlockNode,
-            resetGame
+            resetGame,
+            logout,
+            notifications,
+            notify
         }}>
             {children}
         </GameContext.Provider>
     );
 };
 
-// Hook personalizado para usar el contexto fácilmente
 export const useGame = () => {
     const context = useContext(GameContext);
     if (!context) throw new Error('useGame debe usarse dentro de un GameProvider');

@@ -7,18 +7,37 @@ export const initialFileSystem: FileSystemNode[] = [
         name: 'Navegador Web',
         type: 'app',
         icon: '🌐',
+        owner: 'all', // Todos pueden navegar
     },
     {
         id: 'app-terminal',
         name: 'Terminal',
         type: 'app',
         icon: '🐚',
+        owner: 'alex', // Solo Alex tiene acceso a la consola
+    },
+    {
+        id: 'folder-guest-public',
+        name: 'Manuales_Sistema',
+        type: 'folder',
+        icon: '📁',
+        owner: 'guest', // Solo se ve en la sesión de invitado
+        children: [
+            {
+                id: 'file-notice',
+                name: 'AVISO_IMPORTANTE.txt',
+                type: 'file',
+                icon: '📄',
+                content: 'AVISO: Esta es una sesión de invitado. Los archivos locales se borran cada 24h.\n\nAlex: Si lees esto, deja de usar la cuenta de invitado para tus pruebas de red, el log de auditoría está registrando todo.'
+            }
+        ]
     },
     {
         id: 'folder-docs',
         name: 'Documentos',
         type: 'folder',
         icon: '📁',
+        owner: 'alex', 
         isLocked: false,
         children: [
             {
@@ -27,7 +46,7 @@ export const initialFileSystem: FileSystemNode[] = [
                 type: 'file',
                 icon: '📄',
                 isLocked: true,
-                password: 'azul', // Pista: Color favorito mencionado en redes
+                password: 'azul', 
                 content: '12/10: Siento que el coche negro me sigue de nuevo. Si algo me pasa, busquen en la carpeta de la vieja fábrica.'
             },
             {
@@ -44,12 +63,14 @@ export const initialFileSystem: FileSystemNode[] = [
         name: 'Fotos',
         type: 'folder',
         icon: '📁',
+        owner: 'alex',
         isLocked: false,
         children: [
             {
                 id: 'img-clue1',
                 name: 'DSC_0089.jpeg',
                 type: 'image',
+                icon: '🖼️',
                 imageUrl: '/assets/clue1.jpeg',
                 metadata: {
                     "Formato": "JPEG",
@@ -65,6 +86,7 @@ export const initialFileSystem: FileSystemNode[] = [
                 id: 'img-clue2',
                 name: 'DSC_1050.jpg',
                 type: 'image',
+                icon: '🖼️',
                 imageUrl: '/assets/clue2.jpeg',
                 metadata: {
                     "Formato": "jpg",
@@ -77,18 +99,19 @@ export const initialFileSystem: FileSystemNode[] = [
     },
     {
         id: 'folder-secret',
-        name: 'PROYECTO_X',
+        name: 'PROYECTO_COLMENA',
         type: 'folder',
         icon: '📁',
+        owner: 'alex',
         isLocked: true,
         password: 'root',
         children: [
             {
                 id: 'file-leak',
-                name: 'lista_nombres.csv',
+                name: 'sujetos_fase_1.csv',
                 type: 'file',
                 icon: '📊',
-                content: 'UserID, Status, Location\nAdmin_01, Active, Sector 7\nAgent_K, Disavowed, Unknown'
+                content: 'SubjectID, Status, Frequency_Sync\nSub_01, Stable, 444Hz\nSub_02, Brain_Dead, 448Hz\nAlex_R, Compatible, Pending'
             }
         ]
     },
@@ -97,14 +120,15 @@ export const initialFileSystem: FileSystemNode[] = [
         name: 'Papelera',
         type: 'folder',
         icon: '🗑️',
+        owner: 'all', 
         isLocked: false,
         children: [
             {
                 id: 'file-deleted',
-                name: 'borrar_antes_de_salir.txt',
+                name: 'recuperame.txt',
                 type: 'file',
                 icon: '📄',
-                content: 'No olvides que la llave del servidor está detrás de la foto de la abuela.'
+                content: 'La clave de Alex está oculta en el código fuente de su perfil social. Es un string de 12 caracteres.'
             }
         ]
     }

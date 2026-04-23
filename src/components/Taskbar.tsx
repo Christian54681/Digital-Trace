@@ -7,7 +7,8 @@ const Taskbar: React.FC = () => {
     const { openApp, resetGame } = useGame();
     const [isStartOpen, setIsStartOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    
+    const currentUser = localStorage.getItem('currentUser') === 'guest' ? 'invitado' : 'alex';
+
     // Reloj en tiempo real
     const [time, setTime] = useState(new Date());
     useEffect(() => {
@@ -61,7 +62,7 @@ const Taskbar: React.FC = () => {
                             <div className="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold text-white">
                                 C
                             </div>
-                            <span className="text-sm text-white/80 font-medium">dls</span>
+                            <span className="text-sm text-white/80 font-medium">{currentUser}</span>
                         </div>
                         <button
                             onClick={resetGame}

@@ -5,6 +5,7 @@ export interface FileSystemNode {
     id: string;
     name: string;
     type: NodeType;
+    owner?: 'alex' | 'guest' | 'all';
     icon?: string;
     content?: string;      // Texto dentro de un .txt
     imageUrl?: string;    // Ruta de la imagen
