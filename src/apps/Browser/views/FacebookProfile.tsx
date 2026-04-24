@@ -11,8 +11,6 @@ interface Props {
 
 }
 
-
-
 const FacebookProfile: React.FC<Props> = ({ profileId, onNavigateMessages, onNavigateProfile, onNavigateHome }) => {
     const user = socialResults.find(p => p.id === profileId);
 
@@ -53,8 +51,8 @@ const FacebookProfile: React.FC<Props> = ({ profileId, onNavigateMessages, onNav
                 <div className="md:col-span-1 space-y-4">
                     <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
                         <h3 className="font-bold mb-2">Información</h3>
-                        <p className="text-sm text-gray-600 mb-2">🎂 Nacimiento: 12 de Octubre</p>
-                        <p className="text-sm text-gray-600">🏠 Vive en {user.location}</p>
+                        <p className="text-sm text-gray-600 mb-2">🎂 Nacimiento: {user.nacimiento}</p>
+                        <p className="text-sm text-gray-600"><img src="assets/home.png" alt="home" className='h-5 flex flex-row' /> Vive en {user.location}</p>
                         <p className="text-sm italic mt-4 text-blue-600">"{user.bio}"</p>
                     </div>
                 </div>

@@ -8,15 +8,21 @@ const Taskbar: React.FC = () => {
     const [isStartOpen, setIsStartOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const currentUser = localStorage.getItem('currentUser') === 'guest' ? 'invitado' : 'alex';
+    const [time, setTime] = useState('');
+    const [date, setDate] = useState('');
 
-    // Reloj en tiempo real
-    const [time, setTime] = useState(new Date());
     useEffect(() => {
-        const timer = setInterval(() => setTime(new Date()), 1000);
+        const updateTime = () => {
+            const now = new Date();
+            setTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+            setDate(now.toLocaleDateString('es-ES', {
+                weekday: 'long', day: 'numeric', month: 'long'
+            }));
+        };
+        updateTime();
+        const timer = setInterval(updateTime, 60000);
         return () => clearInterval(timer);
     }, []);
-
-    const currentTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -99,8 +105,8 @@ const Taskbar: React.FC = () => {
             {/* Reloj y Fecha compactos */}
             <div className="flex items-center gap-3 text-white pr-2 select-none">
                 <div className="text-right leading-none">
-                    <p className="text-[12px] font-semibold">{currentTime}</p>
-                    <p className="text-[9px] opacity-50 mt-0.5">12/10/2026</p>
+                    <p className="text-[12px] font-semibold">{time}</p>
+                    <p className="text-[9px] opacity-50 mt-0.5">{date}</p>
                 </div>
             </div>
         </div>

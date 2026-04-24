@@ -6,9 +6,10 @@ import type { FileSystemNode } from '../types';
 interface IconProps {
     node: FileSystemNode;
     size?: 'medium' | 'large';
+    onDoubleClick?: () => void;
 }
 
-const Icon: React.FC<IconProps> = ({ node, size = 'large' }) => {
+const Icon: React.FC<IconProps> = ({ node, size = 'large', onDoubleClick }) => {
     const { openApp } = useGame();
 
     // Definimos los tamaños basados en la prop
@@ -17,7 +18,13 @@ const containerSize = size === 'large' ? 'w-28 h-28' : 'w-24 h-24';
     const textSize = size === 'large' ? 'text-sm' : 'text-xs';
 
     const handleDoubleClick = () => {
-        openApp(node);
+        if (onDoubleClick) {
+            // Si el Explorer nos da una función, ejecutamos esa (navegación interna)
+            onDoubleClick();
+        } else {
+            // Si no (estamos en el Desktop), abrimos app normal
+            openApp(node);
+        }
     };
 
     // Función para determinar qué imagen usar

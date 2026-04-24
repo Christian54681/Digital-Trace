@@ -33,7 +33,7 @@ const LockScreen: React.FC = () => {
             if (selectedUser === 'guest') {
                 unlockPC('guest');
             } else {
-                const CORRECT_PASSWORD = "0G8V/+t\\0l2n";
+                const CORRECT_PASSWORD = "admin";
                 if (password === CORRECT_PASSWORD) {
                     unlockPC('alex');
                 } else {

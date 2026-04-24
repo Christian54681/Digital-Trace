@@ -10,8 +10,8 @@ interface ExplorerProps {
 }
 
 const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
-    
-    const { unlockNode } = useGame(); // Extrae la función
+
+    const { unlockNode, openApp } = useGame(); // Extrae la función
     // Historial de navegación para poder volver atrás
     const [history, setHistory] = useState<FileSystemNode[][]>([initialData]);
     const [currentPath, setCurrentPath] = useState<string[]>(['Inicio']);
@@ -19,21 +19,6 @@ const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
     const [lockedFolder, setLockedFolder] = useState<FileSystemNode | null>(node?.isLocked ? node : null);
 
     const currentFiles = history[history.length - 1];
-
-    const handleFolderClick = (node: FileSystemNode) => {
-        if (node.type !== 'folder') return;
-
-        // Si la carpeta está bloqueada, mostramos el prompt de contraseña
-        if (node.isLocked === true) {
-            setLockedFolder(node);
-            return;
-        }
-
-        if (node.children) {
-            setHistory([...history, node.children]);
-            setCurrentPath([...currentPath, node.name]);
-        }
-    };
 
     const handleGoBack = () => {
         if (history.length > 1) {
@@ -45,7 +30,7 @@ const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
     const unlockFolder = () => {
         if (lockedFolder && passwordInput === lockedFolder.password) {
             const children = lockedFolder.children || [];
-            
+
             unlockNode(lockedFolder.id);
 
             setHistory(prev => [...prev, children]);
@@ -55,6 +40,25 @@ const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
             setPasswordInput('');
         } else {
             alert("Contraseña incorrecta");
+        }
+    };
+
+    const handleItemDoubleClick = (clickedNode: FileSystemNode) => {
+        if (clickedNode.type === 'folder') {
+            // LÓGICA DE NAVEGACIÓN (Lo que ya tenías)
+            if (clickedNode.isLocked) {
+                setLockedFolder(clickedNode);
+                return;
+            }
+
+            if (clickedNode.children) {
+                setHistory([...history, clickedNode.children]);
+                setCurrentPath([...currentPath, clickedNode.name]);
+            }
+        } else {
+            // LÓGICA DE APERTURA (Para imágenes, archivos, etc.)
+            // Esto abrirá la ventana correspondiente (ImageViewer, etc.)
+            openApp(clickedNode);
         }
     };
 
@@ -102,16 +106,15 @@ const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
                     {currentFiles.map((file) => (
                         <div
                             key={file.id}
-                            onDoubleClick={() => handleFolderClick(file)}
                             className="cursor-pointer"
                         >
-                            {/* Reutilizamos nuestro componente Icon */}
-                            <Icon node={file} size={file.type === 'image' ? 'large' : 'medium'}/>
+                            <Icon
+                                node={file}
+                                size={file.type === 'image' ? 'large' : 'medium'}
+                                onDoubleClick={() => handleItemDoubleClick(file)}
+                            />
                         </div>
                     ))}
-                    {currentFiles.length === 0 && (
-                        <p className="col-span-full text-center py-20 opacity-30">Esta carpeta está vacía</p>
-                    )}
                 </div>
             )}
         </div>

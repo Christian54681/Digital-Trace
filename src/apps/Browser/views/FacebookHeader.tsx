@@ -75,7 +75,7 @@ const FacebookHeader: React.FC<FacebookHeaderProps> = ({
                     <span role="img" aria-label="notifications"><img src="assets/notificacion.png" alt="notificacion" className='h-6 cursor-pointer' /></span>
                 </button>
                 <button className="bg-gray-200 p-2 rounded-full hover:bg-gray-300"
-                    onClick={onNavigateProfile.bind(null, 'alex-martinez')}>
+                    onClick={onNavigateProfile.bind(null, 'alex-ramirez')}>
                     <span role="img" aria-label="usuario"><img src="assets/usuario.png" alt="usuario" className='h-6 cursor-pointer' /></span>
                 </button>
             </div>

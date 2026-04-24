@@ -1,6 +1,7 @@
 // src/apps/Browser/views/FacebookMessages.tsx
 import React, { useState } from 'react';
 import FacebookHeader from './FacebookHeader';
+import { chats } from '../../../data/chats';
 
 interface Props {
     onNavigateMessages: () => void;
@@ -11,33 +12,10 @@ interface Props {
 const FacebookMessages: React.FC<Props> = ({ onNavigateMessages, onNavigateProfile, onNavigateHome }) => {
     const [selectedChat, setSelectedChat] = useState(0);
 
-    const chats = [
-        {
-            id: 0,
-            name: "Jefe de IT (Sistemas)",
-            preview: "Alex, te advertí sobre el acceso...",
-            messages: [
-                { sender: "Jefe", text: "Alex, el log indica que entraste al servidor de 'COLMENA' fuera de horario." },
-                { sender: "Alex", text: "Estaba terminando unos parches de seguridad, nada raro." },
-                { sender: "Jefe", text: "No me mientas. Si vuelves a usar el token de respaldo sin autorización, estás fuera." }
-            ]
-        },
-        {
-            id: 1,
-            name: "Desconocido",
-            preview: "Tengo los archivos que pediste.",
-            messages: [
-                { sender: "Otro", text: "Tengo los archivos. Están en el archivo .zip del escritorio del PC de la oficina." },
-                { sender: "Otro", text: "La contraseña del zip es el año en que se fundó la empresa más el nombre de tu gato." },
-                { sender: "Alex", text: "Borra este chat en cuanto lo leas." }
-            ]
-        }
-    ];
-
     return (
         // Quitamos el "flex flex-col" duplicado y nos aseguramos que el padre sea h-full
         <div className="flex flex-col h-full bg-white text-black font-sans">
-            
+
             {/* Header: Ahora sin h-full ni overflow propio */}
             <FacebookHeader
                 onNavigateMessages={onNavigateMessages}
@@ -46,8 +24,8 @@ const FacebookMessages: React.FC<Props> = ({ onNavigateMessages, onNavigateProfi
             />
 
             {/* Contenedor de Chats: Ocupa el resto del alto (flex-1) */}
-            <div className="flex-1 flex overflow-hidden"> 
-                
+            <div className="flex-1 flex overflow-hidden">
+
                 {/* Lista de Chats */}
                 <div className="w-1/3 border-r border-gray-200 flex flex-col">
                     <div className="p-4 border-b border-gray-200 font-bold text-xl bg-white">Chats</div>
@@ -74,14 +52,19 @@ const FacebookMessages: React.FC<Props> = ({ onNavigateMessages, onNavigateProfi
 
                     {/* Burbujas de mensajes */}
                     <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#f0f2f5]">
-                        {chats[selectedChat].messages.map((m, i) => (
-                            <div key={i} className={`flex ${m.sender === 'Alex' ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[70%] p-3 rounded-2xl text-[14px] shadow-sm ${
-                                    m.sender === 'Alex' 
-                                    ? 'bg-[#0084ff] text-white rounded-br-none' 
-                                    : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none'
-                                }`}>
-                                    {m.text}
+                        {chats[selectedChat].messages.map((m) => (
+                            <div className={`flex ${m.sender === 'Alex' ? 'justify-end' : 'justify-start'}`}>
+                                <div className="flex flex-col max-w-[70%]">
+                                    <div className={`p-3 rounded-2xl text-[14px] shadow-sm ${m.sender === 'Alex'
+                                            ? 'bg-[#0084ff] text-white rounded-br-none'
+                                            : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none'
+                                        }`}>
+                                        {m.text}
+                                    </div>
+                                    {/* Pequeño indicador de hora debajo de la burbuja */}
+                                    <span className={`text-[10px] mt-1 text-gray-500 ${m.sender === 'Alex' ? 'text-right' : 'text-left'}`}>
+                                        {m.time}
+                                    </span>
                                 </div>
                             </div>
                         ))}
@@ -89,10 +72,10 @@ const FacebookMessages: React.FC<Props> = ({ onNavigateMessages, onNavigateProfi
 
                     {/* Input de respuesta falso */}
                     <div className="p-4 bg-white border-t border-gray-200">
-                        <input 
-                            disabled 
-                            placeholder="No puedes responder a esta conversación" 
-                            className="w-full p-2.5 bg-gray-100 rounded-full text-sm italic text-gray-400 outline-none border border-gray-200" 
+                        <input
+                            disabled
+                            placeholder="No puedes responder a esta conversación"
+                            className="w-full p-2.5 bg-gray-100 rounded-full text-sm italic text-gray-400 outline-none border border-gray-200"
                         />
                     </div>
                 </div>

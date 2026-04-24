@@ -6,7 +6,7 @@ import type { BrowserView } from '../Browser';
 interface Props {
     query: string;
     onNavigate: (url: string, view: BrowserView, q?: string) => void;
-    onNavigateProfile: (id: string) => void; 
+    onNavigateProfile: (id: string) => void;
 }
 
 const SearchResults: React.FC<Props> = ({ query, onNavigateProfile, onNavigate }) => {
@@ -19,6 +19,16 @@ const SearchResults: React.FC<Props> = ({ query, onNavigateProfile, onNavigate }
     const filteredPeople = socialResults.filter(person =>
         person.name.toLowerCase().includes(q)
     );
+
+    const isFacebookLoggedIn = localStorage.getItem('fb_session') === 'active';
+
+    const handleProfileClick = (personId: string) => {
+        if (isFacebookLoggedIn) {
+            onNavigateProfile(personId);
+        } else {
+            onNavigate('https://facebook.com/login', 'FB_LOGIN'); // Navega a la página de login
+        }
+    };
 
     return (
         <div className="p-8 bg-white h-full animate-in fade-in overflow-y-auto font-sans">
@@ -58,7 +68,7 @@ const SearchResults: React.FC<Props> = ({ query, onNavigateProfile, onNavigate }
                                 <span>https://facebook.com/{person.name}</span>
                             </div>
                             <h3
-                                onClick={() => onNavigateProfile(person.id)}
+                                onClick={() => handleProfileClick(person.id)}
                                 className="text-[20px] text-blue-800 font-medium hover:underline cursor-pointer leading-tight mb-1"
                             >
                                 {person.name} | Perfil en Facebook
