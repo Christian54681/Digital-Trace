@@ -60,7 +60,7 @@ export const initialFileSystem: FileSystemNode[] = [
     },
     {
         id: 'folder-images-alex',
-        name: 'Fotos 2',
+        name: 'Fotos_2',
         type: 'folder',
         icon: '📁',
         owner: 'alex',
@@ -303,43 +303,6 @@ export const initialFileSystem: FileSystemNode[] = [
                 type: 'file',
                 icon: '📄',
                 content: 'Si estás leyendo esto, probablemente ya no esté. No puedo arriesgarme a que me encuentren, pero quería dejar esta nota por si acaso. \n\nEl proyecto Colmena es real, y es más grande de lo que imaginé. Si quieres saber la verdad, busca en los archivos de la vieja fábrica al norte de la ciudad. Ahí dejé todo lo que sé sobre el proyecto y mis descubrimientos. \n\nGracias por acompañarme hasta aquí.'
-            }
-        ]
-    },
-    {
-        id: 'documentos',
-        name: 'DOCUMENTOS',
-        type: 'folder',
-        icon: '📁',
-        owner: 'all',
-        children: [
-            {
-                id: 'file-terms',
-                name: 'terminos_servicio.txt',
-                type: 'file',
-                icon: '📄',
-                content: 'Términos de Servicio de TechCorp\n\n1. Uso del software bajo tu propio riesgo.\n2. No nos hacemos responsables por daños causados por el uso indebido.\n3. El acceso no autorizado a sistemas es ilegal y será perseguido.'
-            },
-            {
-                id: 'file-privacy',
-                name: 'politica_privacidad.txt',
-                type: 'file',
-                icon: '📄',
-                content: 'Política de Privacidad de TechCorp\n\nRecopilamos datos de uso para mejorar nuestros servicios. No compartimos tu información con terceros sin tu consentimiento explícito, excepto cuando la ley lo requiera.'
-            },
-            {
-                id: 'file-readme',
-                name: 'README.txt',
-                type: 'file',
-                icon: '📄',
-                content: 'Bienvenido al sistema de archivos de Alex Ramírez. Aquí encontrarás documentos, fotos y aplicaciones relacionadas con su vida y trabajo en TechCorp. Explora con cuidado, algunas carpetas están protegidas por contraseña.'
-            },
-            {
-                id: 'fechas-importantes',
-                name: 'fechas_importantes.txt',
-                type: 'file',
-                icon: '📄',
-                content: 'Fechas importantes:\n- Fundación de TechCorp: 2010\n- Inicio del Proyecto Colmena: 2023\n- Último acceso a COLMENA: 2026-04-15\n- Cumpleaños de Alex: 15 de junio\n- Cumpleaños de Mamá: 20 de noviembre\n- Cumpleaños de Lucía: 5 de marzo'
             }
         ]
     },
@@ -591,7 +554,44 @@ export const initialFileSystem: FileSystemNode[] = [
                             ``
                     }
                 ]
-            }
+            },
+            {
+                id: 'documentos',
+                name: 'DOCUMENTOS',
+                type: 'folder',
+                icon: '📁',
+                owner: 'all',
+                children: [
+                    {
+                        id: 'file-terms',
+                        name: 'terminos_servicio.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content: 'Términos de Servicio de TechCorp\n\n1. Uso del software bajo tu propio riesgo.\n2. No nos hacemos responsables por daños causados por el uso indebido.\n3. El acceso no autorizado a sistemas es ilegal y será perseguido.'
+                    },
+                    {
+                        id: 'file-privacy',
+                        name: 'politica_privacidad.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content: 'Política de Privacidad de TechCorp\n\nRecopilamos datos de uso para mejorar nuestros servicios. No compartimos tu información con terceros sin tu consentimiento explícito, excepto cuando la ley lo requiera.'
+                    },
+                    {
+                        id: 'file-readme',
+                        name: 'README.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content: 'Bienvenido al sistema de archivos de Alex Ramírez. Aquí encontrarás documentos, fotos y aplicaciones relacionadas con su vida y trabajo en TechCorp. Explora con cuidado, algunas carpetas están protegidas por contraseña.'
+                    },
+                    {
+                        id: 'fechas-importantes',
+                        name: 'fechas_importantes.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content: 'Fechas importantes:\n- Fundación de TechCorp: 2010\n- Inicio del Proyecto Colmena: 2023\n- Último acceso a COLMENA: 2026-04-15\n- Cumpleaños de Alex: 15 de junio\n- Cumpleaños de Mamá: 20 de noviembre\n- Cumpleaños de Lucía: 5 de marzo'
+                    }
+                ]
+            },
         ]
     },
 
