@@ -14,8 +14,8 @@ const FacebookFriends: React.FC<Props> = ({ onSelectFriend }) => {
             <h3 className="font-bold text-gray-500 text-xs uppercase mb-4 tracking-wider">Contactos</h3>
             <div className="space-y-4">
                 {friends.map(friend => (
-                    <div 
-                        key={friend.id} 
+                    <div
+                        key={friend.id}
                         onClick={() => onSelectFriend(friend.id)}
                         className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-1 rounded-lg transition-colors group"
                     >

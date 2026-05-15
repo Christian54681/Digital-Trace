@@ -2,6 +2,7 @@
 import React from 'react';
 import { socialResults } from '../../../data/webData';
 import FacebookHeader from './FacebookHeader';
+import { Earth, ThumbsUpIcon, MessageSquareMore, CakeIcon} from 'lucide-react';
 
 interface Props {
     profileId: string;
@@ -51,8 +52,8 @@ const FacebookProfile: React.FC<Props> = ({ profileId, onNavigateMessages, onNav
                 <div className="md:col-span-1 space-y-4">
                     <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
                         <h3 className="font-bold mb-2">Información</h3>
-                        <p className="text-sm text-gray-600 mb-2">🎂 Nacimiento: {user.nacimiento}</p>
-                        <p className="text-sm text-gray-600"><img src="assets/home.png" alt="home" className='h-5 flex flex-row' /> Vive en {user.location}</p>
+                        <p className="text-sm text-gray-600 mb-2 flex gap-1"><CakeIcon size={22}/> Nacimiento: {user.nacimiento}</p>
+                        <p className="text-sm text-gray-600 flex gap-1"><img src="assets/home.png" alt="home" className='h-5 flex flex-row' /> Vive en {user.location}</p>
                         <p className="text-sm italic mt-4 text-blue-600">"{user.bio}"</p>
                     </div>
                 </div>
@@ -73,15 +74,15 @@ const FacebookProfile: React.FC<Props> = ({ profileId, onNavigateMessages, onNav
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold">{user.name}</p>
-                                            <p className="text-[10px] text-gray-400">Hace {index + 1}d • 🌎</p>
+                                            <p className="text-[10px] text-gray-400">Hace {index + 1}d • <Earth size={12} /></p>
                                         </div>
                                     </div>
                                     <p className="text-[15px] text-gray-800 leading-relaxed">
                                         {post}
                                     </p>
                                     <div className="mt-4 pt-3 border-t border-gray-50 flex gap-4 text-gray-400 text-xs">
-                                        <span>👍 Me gusta</span>
-                                        <span>💬 Comentar</span>
+                                        <span className='flex items-center gap-1'><ThumbsUpIcon size={16} /> Me gusta</span>
+                                        <span className='flex items-center gap-1'><MessageSquareMore size={16} /> Comentar</span>
                                     </div>
                                 </div>
                             ))

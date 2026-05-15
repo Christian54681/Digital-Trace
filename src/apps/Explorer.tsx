@@ -45,7 +45,7 @@ const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
 
     const handleItemDoubleClick = (clickedNode: FileSystemNode) => {
         if (clickedNode.type === 'folder') {
-            // LÓGICA DE NAVEGACIÓN (Lo que ya tenías)
+            // LÓGICA DE NAVEGACIÓN
             if (clickedNode.isLocked) {
                 setLockedFolder(clickedNode);
                 return;

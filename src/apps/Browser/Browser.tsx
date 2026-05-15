@@ -7,6 +7,7 @@ import SearchResults from './views/SearchResults';
 import FacebookMessages from './views/FacebookMessages';
 import FacebookFeed from './views/FacebookFeed'; // Asegúrate de crear este archivo
 import FacebookProfile from './views/FacebookProfile';
+import { LogOut } from 'lucide-react';
 
 // Añadimos FB_FEED a los tipos
 export type BrowserView = 'GOOGLE' | 'FB_LOGIN' | 'FB_FEED' | 'SEARCH' | 'FB_MESSAGES' | 'FB_PROFILE' | 'ERROR';
@@ -114,7 +115,7 @@ const Browser: React.FC = () => {
                 {/* Botón de Logout opcional si está en Facebook */}
                 {isLoggedIn && url.includes('facebook.com') && (
                     <button onClick={handleLogout} className="text-[10px] bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-200 font-bold uppercase">
-                        Salir
+                        <LogOut size={12} className="inline" />
                     </button>
                 )}
             </div>

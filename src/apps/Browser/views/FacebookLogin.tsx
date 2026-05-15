@@ -23,16 +23,16 @@ const FacebookLogin: React.FC<{ onLoginSuccess: () => void }> = ({ onLoginSucces
             <h1 className="text-[#1877f2] text-5xl font-black mb-6">facebook</h1>
             <div className="bg-white p-6 rounded-xl shadow-xl border w-[380px]">
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                    <input 
-                        type="text" 
-                        placeholder="Correo electrónico o teléfono" 
+                    <input
+                        type="text"
+                        placeholder="Correo electrónico o usuario"
                         className={`p-3 border rounded-lg outline-none focus:border-blue-500 text-black ${error ? 'border-red-500' : 'border-gray-300'}`}
                         value={user}
                         onChange={(e) => setUser(e.target.value)}
                     />
-                    <input 
-                        type="password" 
-                        placeholder="Contraseña" 
+                    <input
+                        type="password"
+                        placeholder="Contraseña"
                         className={`p-3 border rounded-lg outline-none focus:border-blue-500 text-black ${error ? 'border-red-500' : 'border-gray-300'}`}
                         value={pass}
                         onChange={(e) => setPass(e.target.value)}
