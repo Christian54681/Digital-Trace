@@ -1,5 +1,5 @@
 // src/types.ts
-export type NodeType = 'file' | 'folder' | 'image' | 'app' | 'papelera';
+export type NodeType = 'file' | 'folder' | 'image' | 'app' | 'papelera' | 'document' | 'audio' | 'video' | 'archive' | 'shortcut';
 
 export interface FileSystemNode {
     id: string;

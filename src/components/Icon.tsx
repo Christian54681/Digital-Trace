@@ -40,6 +40,11 @@ const containerSize = size === 'large' ? 'w-28 h-28' : 'w-24 h-24';
             return '/assets/app-default.png';
         }
         if (node.type === 'image') return '/assets/image-icon.png';
+        if (node.type === 'document') return '/assets/document.png';
+        if (node.type === 'audio') return '/assets/musical-note.png';
+        if (node.type === 'video') return '/assets/video.png';
+        if (node.type === 'archive') return '/assets/archive.png';
+        if (node.type === 'shortcut') return '/assets/shortcut.png';
 
         // Por defecto para archivos .txt o desconocidos
         return '/assets/file.png';

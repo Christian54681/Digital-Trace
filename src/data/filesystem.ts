@@ -219,7 +219,7 @@ export const initialFileSystem: FileSystemNode[] = [
                     },
                     {
                         id: 'img-mom',
-                        name: 'mamá.jpg',
+                        name: 'Abuelos.jpg',
                         type: 'image',
                         icon: '🖼️',
                         imageUrl: '/assets/Alexs_life/FAMILIA1.jpg',
@@ -262,7 +262,7 @@ export const initialFileSystem: FileSystemNode[] = [
             },
             {
                 id: 'img-sister',
-                name: 'dibujo_lucia.jpg',
+                name: 'dibujo_sofi.jpg',
                 type: 'image',
                 icon: '🖼️',
                 imageUrl: '/assets/Alexs_life/DIBUJO_LUCIA.jpg',
@@ -270,22 +270,6 @@ export const initialFileSystem: FileSystemNode[] = [
                     "Anotación": "Escaneado del dibujo que me envió por correo. 'Alex el superhéroe'."
                 }
             },
-        ]
-    },
-    {
-        id: 'folder-work',
-        name: 'Trabajo',
-        type: 'folder',
-        icon: '📁',
-        owner: 'alex',
-        children: [
-            {
-                id: 'file-project',
-                name: 'proyecto_colmena.pptx',
-                type: 'file',
-                icon: '📄',
-                content: 'Presentación del Proyecto Colmena\n\n- Objetivo: Sincronización neuronal avanzada\n- Fase 1: Pruebas de compatibilidad\n- Fase 2: Implementación en sujetos humanos\n- Riesgos y consideraciones éticas'
-            }
         ]
     },
     {
@@ -373,6 +357,434 @@ export const initialFileSystem: FileSystemNode[] = [
                 type: 'file',
                 icon: '📄',
                 content: 'La clave de Alex está oculta en el código fuente de su perfil social. Es un string de 12 caracteres.'
+            }
+        ]
+    },
+
+    // ==========================
+    // NUEVOS DATOS / CAPAS
+    // ==========================
+
+    {
+        id: 'desktop',
+        name: 'Escritorio',
+        type: 'folder',
+        icon: '🖥️',
+        owner: 'all',
+        children: [
+
+            {
+                id: 'sticky-note',
+                name: 'NO_OLVIDAR.txt',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `- pagar internet\n- llamar a mamá\n- actualizar servidor\n- comprar comida para Pixel\n\nno volver tarde.`
+            },
+
+            {
+                id: 'capture1',
+                name: 'Captura de pantalla 2026-04-11.png',
+                type: 'image',
+                icon: '🖼️',
+                imageUrl: '/assets/screens/capture_login.png',
+                metadata: {
+                    "Ventana": "Correo corporativo",
+                    "Detalle": "Se alcanza a ver parcialmente una contraseña escrita en una nota amarilla."
+                }
+            },
+
+            {
+                id: 'random-folder',
+                name: 'cosas_importantes',
+                type: 'folder',
+                icon: '📁',
+                children: [
+                    {
+                        id: 'random-folder-2',
+                        name: 'IMPORTANTE_AHORA_SI',
+                        type: 'folder',
+                        icon: '📁',
+                        children: [
+                            {
+                                id: 'empty-final',
+                                name: 'final.txt',
+                                type: 'file',
+                                icon: '📄',
+                                content: '...'
+                            }
+                        ]
+                    }
+                ]
+            },
+
+            {
+                id: 'shortcut-oldvpn',
+                name: 'VPN.lnk',
+                type: 'file',
+                icon: '📄',
+                content: 'Acceso directo roto.'
+            },
+
+            {
+                id: 'shopping-list',
+                name: 'compras.txt',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `- arroz\n- café\n- medicina mamá\n- croquetas Pixel`
+            },
+            // ==========================
+            // PAPELERA EXPANDIDA
+            // ==========================
+
+            {
+                id: 'trash-expanded',
+                name: 'Papelera Antigüa',
+                type: 'folder',
+                icon: '🗑️',
+                owner: 'alex',
+                children: [
+
+                    {
+                        id: 'deleted-photo',
+                        name: 'IMG_8821_DEL.jpg',
+                        type: 'image',
+                        icon: '🖼️',
+                        imageUrl: '/assets/deleted/factory.png',
+                        metadata: {
+                            "Fecha":
+                                "2026:04:14 03:12",
+                            "Nota":
+                                "La imagen parece tomada rápidamente desde un auto."
+                        }
+                    },
+
+                    {
+                        id: 'deleted-log',
+                        name: 'network_dump.log',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `connection established...\nremote mirror active...\nsubject sync completed...`
+                    },
+                    {
+                        id: 'deleted-note',
+                        name: 'leeme.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `Si encontraste esto es porque todavía no limpian bien los discos.`
+                    }
+                ]
+            },
+            {
+                id: 'folder-work',
+                name: 'Trabajo',
+                type: 'folder',
+                icon: '📁',
+                owner: 'alex',
+                children: [
+                    {
+                        id: 'file-project',
+                        name: 'proyecto_colmena.pptx',
+                        type: 'file',
+                        icon: '📄',
+                        content: 'Presentación del Proyecto Colmena\n\n- Objetivo: Sincronización neuronal avanzada\n- Fase 1: Pruebas de compatibilidad\n- Fase 2: Implementación en sujetos humanos\n- Riesgos y consideraciones éticas'
+                    }
+                ]
+            },
+
+            // ==========================
+            // BORRADORES PROFUNDOS
+            // ==========================
+
+            {
+                id: 'drafts-hidden',
+                name: 'Borradores Viejos',
+                type: 'folder',
+                icon: '📁',
+                owner: 'alex',
+                children: [
+
+                    {
+                        id: 'draft1',
+                        name: 'renuncia.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `No puedo seguir trabajando aquí.\n\nNo después de lo que vi.`
+                    },
+
+                    {
+                        id: 'draft2',
+                        name: 'NO_ENVIAR.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `Mamá.\n\nPerdón.`
+                    },
+                    {
+                        id: 'draft3',
+                        name: 'cosas_que_no_debo_olvidar.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `- apagar ubicación\n- cambiar rutas\n- destruir usb\n- no usar mismo café`
+                    },
+
+                    {
+                        id: 'draft4',
+                        name: 'si_algo_pasa.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `No fue un accidente.`
+                    }
+                ]
+            },
+            {
+                id: 'notes',
+                name: 'Notas',
+                type: 'folder',
+                icon: '📁',
+                owner: 'all',
+                children: [
+                    {
+                        id: 'note1',
+                        name: 'idea_para_app.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `Tengo una idea para una app de meditación que se sincronice con tu estado emocional usando la tecnología de Colmena. Podría usar música relajante y ejercicios de respiración personalizados.`
+                    },
+                    {
+                        id: 'note2',
+                        name: 'receta_cafe.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `Receta para el café perfecto:\n- 20g de café molido\n- 300ml de agua a 92°C\n- Dejar reposar 4 minutos\n- Disfrutar`
+                    },
+                    {
+                        id: 'note3',
+                        name: 'idea_para_app_v2.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `No se porque no quieren si quiera escuchar mi idea, pedi una reunion para mostrar mi proyecto, por alguna razon la rechazaron, estan mas interesados en el dinero que en hacer un bien a la sociedad, los datos deberian usarse para el bien, no para esto...`
+                    },
+                    {
+                        id: 'note4',
+                        name: 'Escapar.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `Hay momentos donde solo quieisera escapar. Huir de todo, no soy tan fuerte como crei, aunque asi actue, no es mas que una fachada, me siento un impostor, y a la ves siento que ya no tengo vuelta atras, mi familia me necesita, no puedo dejar a mi madre sola, no despues de lo que a hecho por mi`
+                    },
+                    {
+                        id: 'note5',
+                        name: 'idea_para_app_v3.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            ``
+                    }
+                ]
+            }
+        ]
+    },
+
+    // ==========================
+    // DESCARGAS
+    // ==========================
+
+    {
+        id: 'downloads',
+        name: 'Descargas',
+        type: 'folder',
+        icon: '📁',
+        owner: 'all',
+        children: [
+
+            {
+                id: 'pdf-bank',
+                name: 'estado_cuenta_abril.pdf',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `SALDO ACTUAL:\n-$42,188 MXN\n\nPago vencido:\nCOLMENA FINANCIERA`
+            },
+
+            {
+                id: 'resume',
+                name: 'CV_FINAL_REAL_ALEX.pdf',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `Alex Ramírez\nIngeniería en Sistemas\n\nBecado parcialmente durante universidad.`
+            },
+
+            {
+                id: 'resume2',
+                name: 'CV_FINAL_REAL_ALEX_v2.pdf',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `versión más reciente`
+            },
+
+            {
+                id: 'resume3',
+                name: 'CV_BUENO_AHORA_SI.pdf',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `versión más reciente de verdad`
+            },
+
+            {
+                id: 'installer-vpn',
+                name: 'vpn_premium_crack.zip',
+                type: 'file',
+                icon: '📦',
+                content:
+                    `archivo dañado`
+            },
+
+            {
+                id: 'movie',
+                name: 'joker_final_final.mp4',
+                type: 'file',
+                icon: '🎬',
+                content:
+                    `video corrupto`
+            },
+
+            {
+                id: 'audio-note',
+                name: 'audio_0426.mp3',
+                type: 'audio',
+                icon: '🎵',
+                content:
+                    `[audio]\nSe escucha tráfico.\nAlex respirando.\nSilencio largo.\n\n"ya no sé qué hacer..."`
+            },
+
+            {
+                id: 'screens-temp',
+                name: 'Screenshot_20260410.png',
+                type: 'image',
+                icon: '🖼️',
+                imageUrl: '/assets/screens/mail_warning.png',
+                metadata: {
+                    "Ventana": "Correo",
+                    "Mensaje":
+                        "Notificación de deuda pendiente."
+                }
+            },
+
+            {
+                id: 'taxes',
+                name: 'impuestos_2025.xlsx',
+                type: 'file',
+                icon: '📊',
+                content:
+                    `ERROR AL ABRIR ARCHIVO`
+            },
+
+            {
+                id: 'fake-clue',
+                name: 'passwords.txt',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `Netflix: alex123\nSpotify: pixel2020\nSteam: 12345678`
+            },
+            // ==========================
+            // MÚSICA
+            // ==========================
+
+            {
+                id: 'music-folder',
+                name: 'Música',
+                type: 'folder',
+                icon: '📁',
+                owner: 'all',
+                children: [
+
+                    {
+                        id: 'playlist',
+                        name: 'playlist_noche.txt',
+                        type: 'file',
+                        icon: '📄',
+                        content:
+                            `- Space Song\n- After Dark\n- Resonance\n- Snowfall`
+                    },
+
+                    {
+                        id: 'voice-note',
+                        name: 'voz_sofi.mp3',
+                        type: 'audio',
+                        icon: '🎵',
+                        content:
+                            `[audio]\n"Sofi: Alex apúrate ya casi empieza la película 😭"`
+                    },
+
+                    {
+                        id: 'broken-audio',
+                        name: 'grabacion_0311.mp3',
+                        type: 'audio',
+                        icon: '🎵',
+                        content:
+                            `[audio corrupto]\n...ruido...\n"no digas nombres por teléfono"`
+                    }
+                ]
+            },
+        ]
+    },
+
+    // ==========================
+    // CACHE / TEMP
+    // ==========================
+
+    {
+        id: 'cache',
+        name: '.cache',
+        type: 'folder',
+        icon: '📁',
+        owner: 'alex',
+        children: [
+            {
+                id: 'cache1',
+                name: 'session.tmp',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `LAST SESSION:\nFAILED LOGIN\nFAILED LOGIN\nFAILED LOGIN`
+            },
+            {
+                id: 'cache2',
+                name: 'recover.log',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `recovering deleted fragments...\nfragment found:\n"...lucia..."\n"...subject..."\n"...transfer..."`
+            },
+            {
+                id: 'cache3',
+                name: 'thumbs.db',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `binary data`
+            },
+            {
+                id: 'cache4',
+                name: 'browser_autofill.tmp',
+                type: 'file',
+                icon: '📄',
+                content:
+                    `saved values:\nmama_elena\npixel\n2010\ncolmena`
             }
         ]
     },
