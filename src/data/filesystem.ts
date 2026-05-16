@@ -335,7 +335,6 @@ export const initialFileSystem: FileSystemNode[] = [
         icon: '🖥️',
         owner: 'all',
         children: [
-
             {
                 id: 'sticky-note',
                 name: 'NO_OLVIDAR.txt',
@@ -453,7 +452,7 @@ export const initialFileSystem: FileSystemNode[] = [
                         name: 'proyecto_colmena.pptx',
                         type: 'file',
                         icon: '📄',
-                        content: 'Presentación del Proyecto Colmena\n\n- Objetivo: Sincronización neuronal avanzada\n- Fase 1: Pruebas de compatibilidad\n- Fase 2: Implementación en sujetos humanos\n- Riesgos y consideraciones éticas'
+                        content: 'Presentación del Proyecto Colmena\n\n- Objetivo: Analizar el comportamiento de las personas con el fin de '
                     }
                 ]
             },

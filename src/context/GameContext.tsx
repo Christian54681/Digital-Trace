@@ -83,7 +83,8 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     const logout = () => {
         setIsPCUnlocked(false);
         setCurrentUser(null);
-        setOpenWindows([]); // Cerramos todo por seguridad al salir
+        setOpenWindows([]);
+        setFocusedWindowId(null);
     };
 
     const unlockNode = (id: string) => {
@@ -136,8 +137,18 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const resetGame = () => {
-        localStorage.clear();
-        window.location.reload();
+
+        // Limpiar persistencia
+        localStorage.removeItem('isPCUnlocked');
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('openWindows');
+
+        // Resetear estado interno
+        setIsPCUnlocked(false);
+        setCurrentUser(null);
+        setOpenWindows([]);
+        setFocusedWindowId(null);
+        setNotifications([]);
     };
 
     return (

@@ -10,8 +10,9 @@ interface ExplorerProps {
 }
 
 const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
+    // Extraemos currentUser para validar permisos de visión
+    const { unlockNode, openApp, currentUser } = useGame();
 
-    const { unlockNode, openApp } = useGame(); // Extrae la función
     // Historial de navegación para poder volver atrás
     const [history, setHistory] = useState<FileSystemNode[][]>([initialData]);
     const [currentPath, setCurrentPath] = useState<string[]>(['Inicio']);
@@ -19,6 +20,13 @@ const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
     const [lockedFolder, setLockedFolder] = useState<FileSystemNode | null>(node?.isLocked ? node : null);
 
     const currentFiles = history[history.length - 1];
+
+    // --- LÓGICA DE FILTRADO POR USUARIO ---
+    const visibleFiles = currentFiles.filter(file => {
+        // Si el archivo es para todos ('all') o no tiene dueño definido, se muestra
+        if (file.owner === 'all' || !file.owner) return true;
+        return file.owner === currentUser;
+    });
 
     const handleGoBack = () => {
         if (history.length > 1) {
@@ -57,7 +65,6 @@ const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
             }
         } else {
             // LÓGICA DE APERTURA (Para imágenes, archivos, etc.)
-            // Esto abrirá la ventana correspondiente (ImageViewer, etc.)
             openApp(clickedNode);
         }
     };
@@ -101,9 +108,9 @@ const Explorer: React.FC<ExplorerProps> = ({ initialData, node }) => {
                     </button>
                 </div>
             ) : (
-                // Grid de Archivos
+                // Grid de Archivos Filtrados
                 <div className="flex-1 grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-6 content-start m-6 ">
-                    {currentFiles.map((file) => (
+                    {visibleFiles.map((file) => (
                         <div
                             key={file.id}
                             className="cursor-pointer"

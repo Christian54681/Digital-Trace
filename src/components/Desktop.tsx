@@ -12,7 +12,6 @@ import Browser from '../apps/Browser/Browser';
 import FilePasswordScanner from './FilePasswordScanner';
 import type { FileSystemNode } from '../types';
 import NotificationCenter from './NotificationCenter';
-import AmbientPlayer from '../components/AmbientPlayer';
 
 const Desktop: React.FC = () => {
     const { openWindows, currentUser } = useGame();
@@ -54,10 +53,6 @@ const Desktop: React.FC = () => {
                 filter: currentUser === 'alex' ? 'brightness(0.8) contrast(1.1)' : 'brightness(1)'
             }}
         >
-            {/* SOLO si el usuario es 'invitado' se reproduce la musica*/}
-            {(currentUser === 'guest') && (
-                <AmbientPlayer />
-            )}
 
             {/* Overlay de color dinámico según la sesión */}
             <div className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${currentUser === 'alex' ? 'bg-red-900/5 opacity-100' : 'bg-blue-900/5 opacity-100'
