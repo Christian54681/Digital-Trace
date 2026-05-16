@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../context/GameContext';
 import type { FileSystemNode } from '../types';
+import { vfs_casa_mama, vfs_granja_datos } from '../data/remoteServers';
 
 interface TerminalProps {
     fileSystem: FileSystemNode[];
@@ -10,6 +11,7 @@ interface TerminalProps {
 const Terminal: React.FC<TerminalProps> = ({ fileSystem }) => {
     const { currentUser } = useGame();
     const [input, setInput] = useState('');
+    const [remoteServer, setRemoteServer] = useState<string | null>(null);
 
     // ESTADO DE NAVEGACIÓN
     // currentDir representa dónde está parado el usuario en el árbol
@@ -33,8 +35,12 @@ const Terminal: React.FC<TerminalProps> = ({ fileSystem }) => {
     }, [history]);
 
     // LÓGICA DE NAVEGACIÓN
-
-    const getPrompt = () => `${currentUser || 'guest'}@dls:${pathStack.join('/') === 'root' ? '/' : '~/' + pathStack.slice(1).join('/')}$ `;
+    const getPrompt = () => {
+        const user = currentUser || 'guest';
+        const machine = remoteServer ? remoteServer : 'dls';
+        const path = pathStack.join('/') === 'root' ? '/' : '~/' + pathStack.slice(1).join('/');
+        return `${user}@${machine}:${path}$ `;
+    };
 
     const processCommand = (cmd: string) => {
         const parts = cmd.trim().split(/\s+/);
@@ -45,7 +51,7 @@ const Terminal: React.FC<TerminalProps> = ({ fileSystem }) => {
 
         switch (action) {
             case 'help':
-                response = 'Comandos:\n - ls: Listar archivos\n - cd [dir]: Cambiar directorio\n - cat [file]: Leer contenido\n - pwd: Ruta actual\n - analyze [img]: Metadatos EXIF\n - clear: Limpiar pantalla\n - whoami: Información del usuario actual';
+                response = 'Comandos:\n - ls: Listar archivos\n - cd [dir]: Cambiar directorio\n - cat [file]: Leer contenido\n - pwd: Ruta actual\n - analyze [img]: Metadatos EXIF\n - clear: Limpiar pantalla\n - whoami: Información del usuario actual\n - ssh [user@ip]: Conectar a servidor remoto\n - exit: Cerrar sesión remota';
                 break;
 
             case 'pwd':
@@ -63,19 +69,33 @@ const Terminal: React.FC<TerminalProps> = ({ fileSystem }) => {
                 }
                 break;
 
-            case 'cd':
+            case 'cd': {
+                let rootFileSystem: FileSystemNode[] = fileSystem;
+
+                if (remoteServer === 'CASA_MAMA_INTERNAL') rootFileSystem = vfs_casa_mama;
+                if (remoteServer === 'COLMENA_MAIN_FRAME') rootFileSystem = vfs_granja_datos;
+
                 if (!arg || arg === '/') {
-                    setCurrentDir(fileSystem);
+                    setCurrentDir(rootFileSystem);
                     setPathStack(['root']);
                 } else if (arg === '..') {
-                    // Lógica de retroceso
-                    setCurrentDir(fileSystem);
-                    setPathStack(['root']);
+                    if (pathStack.length > 1) {
+
+                        const newPathStack = pathStack.slice(0, -1);
+
+                        let pointer = rootFileSystem;
+                        for (let i = 1; i < newPathStack.length; i++) {
+                            const found = pointer.find(n => n.name === newPathStack[i]);
+                            if (found && found.children) pointer = found.children;
+                        }
+
+                        setCurrentDir(pointer);
+                        setPathStack(newPathStack);
+                    }
                 } else {
                     const target = currentDir.find(n => n.name.toLowerCase() === arg.toLowerCase() && n.type === 'folder');
 
                     if (target) {
-                        // VERIFICACIÓN DE BLOQUEO
                         if (target.isLocked) {
                             setPendingFolder(target);
                             response = `[!] ACCESO RESTRINGIDO: El directorio "${target.name}" está cifrado.\nIntroduzca la clave de descifrado:`;
@@ -88,23 +108,68 @@ const Terminal: React.FC<TerminalProps> = ({ fileSystem }) => {
                     }
                 }
                 break;
+            }
+
+            case 'ssh':
+                if (!arg) {
+                    response = 'Uso: ssh [usuario]@[dirección_ip]';
+                } else if (arg === 'Sofi@192.168.1.55') {
+                    // CASA DE LA MADRE
+                    setRemoteServer('CASA_MAMA_INTERNAL');
+                    setCurrentDir(vfs_casa_mama);
+                    setPathStack(['root']);
+                    response = 'Estableciendo túnel P2P con: 192.168.1.55...\n[OK] Conectado al sistema de vigilancia doméstica.\nADVERTENCIA: Alex está usando el 15% del ancho de banda de esta casa.';
+                } else if (arg === 'root@colmena_farm.net') {
+                    // GRANJA DE DATOS
+                    setRemoteServer('COLMENA_MAIN_FRAME');
+                    setCurrentDir(vfs_granja_datos);
+                    setPathStack(['root']);
+                    response = 'CONECTANDO A COLMENA DATA FARM...\n[X] BYPASSING FIREWALL...\n[X] ENCRIPTACIÓN DETECTADA.\n[!] Sesión iniciada como ROOT.';
+                } else {
+                    response = `ssh: Connection refused by ${arg}.`;
+                }
+                break;
 
             case 'cat':
-                if (!arg) {
-                    response = 'cat: falta un argumento';
+                // Agregamos un trigger para el archivo trampa de la Granja
+                const fileToRead = currentDir.find(n => n.name.toLowerCase() === (arg || '').toLowerCase());
+
+                if (fileToRead && fileToRead.id === 'honey-file') {
+                    // ACTIVAR CAPÍTULO 3
+                    response = fileToRead.content || '';
+                    setTimeout(() => {
+                        setHistory(prev => [...prev, '[!!!] EMERGENCY SHUTDOWN INITIATED', '[!!!] TRACE COMPLETED: 100%', '']);
+                        // Aquí podría cerrar la terminal o lanzar un susto (glitch)
+                    }, 2000);
                 } else {
-                    const file = currentDir.find(n => n.name.toLowerCase() === arg.toLowerCase());
-                    if (file) {
-                        if (file.type === 'folder') {
-                            response = `cat: ${arg}: Es un directorio`;
-                        } else if (file.isLocked) {
-                            response = `[!] ERROR: Archivo cifrado. Se requiere permiso root o llave de descifrado.`;
-                        } else {
-                            response = file.content || '(Archivo vacío)';
-                        }
+                    if (!arg) {
+                        response = 'cat: falta un argumento';
                     } else {
-                        response = `cat: ${arg}: No existe el archivo`;
+                        const file = currentDir.find(n => n.name.toLowerCase() === arg.toLowerCase());
+                        if (file) {
+                            if (file.type === 'folder') {
+                                response = `cat: ${arg}: Es un directorio`;
+                            } else if (file.isLocked) {
+                                response = `[!] ERROR: Archivo cifrado. Se requiere permiso root o llave de descifrado.`;
+                            } else {
+                                response = file.content || '(Archivo vacío)';
+                            }
+                        } else {
+                            response = `cat: ${arg}: No existe el archivo`;
+                        }
                     }
+                    break;
+                }
+                break;
+
+            case 'exit':
+                if (remoteServer) {
+                    setRemoteServer(null);
+                    setCurrentDir(fileSystem);
+                    setPathStack(['root']);
+                    response = `Cerrando conexión con ${remoteServer}...\nSesión terminada.`;
+                } else {
+                    response = 'exit: No hay ninguna sesión remota activa.';
                 }
                 break;
 
@@ -145,7 +210,7 @@ const Terminal: React.FC<TerminalProps> = ({ fileSystem }) => {
             if (pass === pendingFolder.password) {
                 // ÉXITO: Desbloqueamos y entramos
                 const folderToOpen = pendingFolder;
-                setPendingFolder(null); 
+                setPendingFolder(null);
 
                 if (folderToOpen.children) {
                     setCurrentDir(folderToOpen.children);
